@@ -1,0 +1,79 @@
+// triggerPin: jel küldése 
+// echoPin: jel fogadása 
+long readUltrasonicDistance(int triggerPin, int echoPin) 
+{ 
+} 
+// A trigger láb beállítása kimenetként 
+pinMode(triggerPin, OUTPUT); 
+// A trigger LOW állapotban indul 
+digitalWrite(triggerPin, LOW); 
+delayMicroseconds(2); 
+// 10 mikrosecundumos HIGH jelet küldése a mérés indításához 
+digitalWrite(triggerPin, HIGH); 
+delayMicroseconds(10); 
+// Visszaállítjuk LOW-ra 
+digitalWrite(triggerPin, LOW); 
+// Az echo láb beállítása bemenetként 
+pinMode(echoPin, INPUT); 
+// Mérés, hogy mennyi ideig HIGH az echo jel 
+return pulseIn(echoPin, HIGH); 
+void setup() 
+{ 
+  Serial.begin(9600); 
+   
+  // LED-ek kimeneti pinek  
+  pinMode(10, OUTPUT); 
+  pinMode(9, OUTPUT); 
+  pinMode(8, OUTPUT); 
+   
+  // Buzzer  pin 
+  pinMode(11, OUTPUT); 
+} 
+ 
+void loop() 
+{ 
+  // A mért idő távolsággá alakítása 
+  float distance = 0.01723 * readUltrasonicDistance(5, 4); 
+  
+  Serial.println(distance); 
+ 
+  // Kevesebb mint 50 cm távolság 
+  if (distance < 50)  
+  { 
+    // Piros LED világít 
+    digitalWrite(10, HIGH); 
+    digitalWrite(9, LOW); 
+    digitalWrite(8, LOW); 
+     
+    // Hangjelzés 
+    tone(11, 523, 500);  
+    // Várakozás 
+    delay(500);  
+  }  
+  else  
+  { 
+    // 50 és 150 cm közötti távolság 
+    if (distance < 150)  
+    { 
+      // Sárga LED világít 
+      digitalWrite(10, LOW); 
+      digitalWrite(9, HIGH); 
+      digitalWrite(8, LOW); 
+       
+      // Hangjelzés 
+      tone(11, 523, 500);  
+      delay(1000);  
+    } 
+    else  
+    { 
+      // Több mint 150 cm távolság 
+      // Nincs hang 
+      noTone(11); 
+       
+      // Zöld LED világít 
+      digitalWrite(10, LOW); 
+      digitalWrite(9, LOW); 
+      digitalWrite(8, HIGH); 
+    } 
+  } 
+}
