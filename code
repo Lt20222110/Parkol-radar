@@ -3,7 +3,7 @@
 long readUltrasonicDistance(int triggerPin, int echoPin) 
 { 
 } 
-// A trigger láb beállítása kimenetként 
+// A trigger láb beállítása kimenetként  
 pinMode(triggerPin, OUTPUT); 
 // A trigger LOW állapotban indul 
 digitalWrite(triggerPin, LOW); 
